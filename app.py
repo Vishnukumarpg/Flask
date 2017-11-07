@@ -20,22 +20,33 @@ db.init_app(app)
 def main():
     return 'Hello World !'
 
+@app.route("/cb", methods=['POST'])
+def callback():
+    print (request.is_json)
+    content = request.get_json()
+    print content
+    return ' The JSON posted successfully '
+
 @app.route('/fwdxml', methods=['GET'])
 def xml_gen():
-
-    fwd_num = db.session.execute("select fwd, id from forward where id=161616161616")
+    source = 666666666666    #Hardcoded as of now
+    fwd_num = db.session.execute("select fwd, id from forward where id=:id", {'id' : source })
+    #fwd_num = db.session.execute("select fwd, id from forward where id=161616161616")
     for row in fwd_num:
         fwd_dst =  row['fwd']
         src  = row['id']
-    print "forward number for this is -->", str(fwd_dst)
+    print " Message is forwarded from source-> {} to destination --> {}".format(src,fwd_dst)
+    if 'text' in request.args:
+        text = request.args.get('text')
+    else :
+        text = "Text was not passed !"
+    print "Sent text for the message is ", text
     src = src
     dst = fwd_dst
-    text = "Hi ALL THIS IS FROM FLASK"
+    #text = "Hi ALL THIS IS FROM FLASK"
 
     xml = '''<Response><Message callbackMethod="POST" callbackUrl="https://requestb.in/1md8ubo1" dst="{}" src="{}" type="sms">{}</Message></Response>'''.format(dst,src,text)
     return Response(xml, mimetype='text/xml')
-
-
 
 
 @app.route('/input', methods=['POST'])
