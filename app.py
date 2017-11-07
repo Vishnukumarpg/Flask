@@ -29,23 +29,21 @@ def callback():
 
 @app.route('/fwdxml', methods=['GET'])
 def xml_gen():
-    source = 666666666666    #Hardcoded as of now
-    fwd_num = db.session.execute("select fwd, id from forward where id=:id", {'id' : source })
-    #fwd_num = db.session.execute("select fwd, id from forward where id=161616161616")
-    for row in fwd_num:
-        fwd_dst =  row['fwd']
-        src  = row['id']
-    print " Message is forwarded from source-> {} to destination --> {}".format(src,fwd_dst)
-    if 'text' in request.args:
+    if 'src' in request.args and 'dst' in request.args and 'text' in request.args:
+        src = request.args.get('src')
+        first_dst = request.args.get('dst')
         text = request.args.get('text')
     else :
-        text = "Text was not passed !"
-    print "Sent text for the message is ", text
-    src = src
-    dst = fwd_dst
-    #text = "Hi ALL THIS IS FROM FLASK"
+        print "Message details were not recieved properly !"
 
-    xml = '''<Response><Message callbackMethod="POST" callbackUrl="https://requestb.in/1md8ubo1" dst="{}" src="{}" type="sms">{}</Message></Response>'''.format(dst,src,text)
+    print "Message is reieved from source {} and to first destination {}".format(src,first_dst)
+
+    fwd_num = db.session.execute("select fwd, id from forward where id=:id", {'id' : first_dst })
+    for row in fwd_num:
+        fwd_dst =  row['fwd']
+    print " Message will be forwarded from first_destination -> {} to final_destination --> {}".format(first_dst,fwd_dst)
+
+    xml = '''<Response><Message callbackMethod="POST" callbackUrl="https://requestb.in/1md8ubo1" dst="{}" src="{}" type="sms">{}</Message></Response>'''.format(fwd_dst,first_dst,text)
     return Response(xml, mimetype='text/xml')
 
 
