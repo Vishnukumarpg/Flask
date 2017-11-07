@@ -2,9 +2,11 @@ import requests
 import json
 
 
+
+##POSTER
 payload = {
-            "src" : "666666666666",
-            "dst" : "444444444444",
+            "src" : "393939393939",
+            "dst" : "101010101010",
           }
 header_data = {"content-type": "application/json"}
 
@@ -14,6 +16,12 @@ print payload
 
 
 response = requests.post(url = flask_url, data = json.dumps(payload), headers = header_data)
+
+
+###GETTER
+# header_data = {"content-type": "application/xml"}
+# flask_url = "http://127.0.0.1:5000/fwdxml"
+# response = requests.get(url = flask_url, headers = header_data)
 
 content =  str(response.content)
 print content
