@@ -7,3 +7,8 @@ https://realpython.com/blog/python/flask-by-example-part-2-postgres-sqlalchemy-a
 
 Mozilla:
 https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Sending_and_retrieving_form_data
+
+
+Post call has reached
+127.0.0.1 - - [07/Nov/2017 12:35:33] "POST /input HTTP/1.1" 200 -
+{u'src': u'111111222222', u'dst': u'333333444444'}

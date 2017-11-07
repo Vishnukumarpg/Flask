@@ -39,8 +39,8 @@ class Forward(BaseModel, db.Model):
     """Model for the stations table"""
     __tablename__ = 'forward'
 
-    id = db.Column(db.Integer, primary_key = True)
-    fwd = db.Column(db.Integer)
+    id = db.Column(db.BIGINT, primary_key = True)
+    fwd = db.Column(db.BIGINT)
 
     def __init__(self, src, fwd):
         self.id = src
