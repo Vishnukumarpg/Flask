@@ -1,5 +1,5 @@
 from flask import Flask, request, abort, Response
-from models import db, Forward
+from models import db, Forward, Source
 
 app = Flask(__name__)
 
@@ -24,7 +24,14 @@ def main():
 def callback():
     print (request.is_json)
     content = request.get_json()
-    print content
+    print content['src'], content['dst'], content['text']
+    src = content['src']
+    dst = content['dst']
+    text = content['text']
+    src_data = Source(src, dst, text)
+    db.session.add(src_data)
+    db.session.commit()
+
     return ' The JSON posted successfully '
 
 @app.route('/fwdxml', methods=['GET'])
@@ -34,7 +41,7 @@ def xml_gen():
         first_dst = request.args.get('dst')
         text = request.args.get('text')
     else :
-        print "Message details were not recieved properly !"
+        return "Message details were not recieved properly !"
 
     print "Message is reieved from source {} and to first destination {}".format(src,first_dst)
 

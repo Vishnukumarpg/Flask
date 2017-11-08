@@ -26,6 +26,11 @@ class BaseModel(db.Model):
             for column, value in self._to_dict().items()
         }
 
+    def __str__(self):
+        return unicode(self).encode('utf-8')
+
+    def __unicode__(self):
+        return self.name
 
 class Station(BaseModel, db.Model):
     """Model for the stations table"""
@@ -45,4 +50,17 @@ class Forward(BaseModel, db.Model):
     def __init__(self, src, fwd):
         self.id = src
         self.fwd = fwd
+
+class Source(BaseModel, db.Model):
+    """Model for the stations table"""
+    __tablename__ = 'source'
+
+    src = db.Column(db.BIGINT, primary_key = True)
+    dst = db.Column(db.BIGINT)
+    text = db.Column(db.TEXT)
+
+    def __init__(self, src, dst, text):
+        self.src = src
+        self.dst = dst
+        self.text = text
 
