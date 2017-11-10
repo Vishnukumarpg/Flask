@@ -20,6 +20,8 @@ db.init_app(app)
 def main():
     return 'Hello World !'
 
+
+
 @app.route("/cb", methods=['POST'])
 def callback():
     print (request.is_json)
