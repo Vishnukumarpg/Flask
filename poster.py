@@ -25,3 +25,5 @@ response = requests.post(url = flask_url, data = json.dumps(payload), headers = 
 
 content =  str(response.content)
 print content
+
+#This was something that was rejected outright and made obselote.
