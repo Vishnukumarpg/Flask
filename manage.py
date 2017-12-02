@@ -11,3 +11,6 @@ manager.add_command('db', MigrateCommand)
 
 if __name__ == '__main__':
     manager.run()
+    
+# Now let us add this i branch 2 for the sake of conflict.    
+# This content on sixteenth line is also required.
